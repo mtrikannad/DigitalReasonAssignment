@@ -1,0 +1,28 @@
+Run Instructions
+----------------
+
+Run the main method of com.digitalreasoning.langprocessing.main.RunLangProcessing
+Junit test at test.com.digitalreasoning.langprocessing.main.LangFileReaderTest
+
+Design description
+------------------
+Instance of model.FileToBeAnalyzed relates to parsed output of one file and
+contains a list of sentences. Sentences are modeled by model.Sentence. Sentence
+contains list of words.A word is modelted by model.Word.
+
+An instance of LangFileReader needs to be passed a filename and its method
+readandParse should be called. 
+The method toXML will return an XML representation.
+
+Assumptions
+-----------
+
+
+Limitations
+-----------
+Will not handle very large files well, because all the contents are read into 
+memory as one string.
+
+
+Other Approaches
+----------------
