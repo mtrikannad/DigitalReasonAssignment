@@ -2,13 +2,14 @@ Run Instructions
 ----------------
 
 Run the main method of com.digitalreasoning.langprocessing.main.RunLangProcessing
-Junit test at test.com.digitalreasoning.langprocessing.main.LangFileReaderTest
+Junit tests are at test.com.digitalreasoning.langprocessing
 
 Design description
 ------------------
-Instance of model.FileToBeAnalyzed relates to parsed output of one file and
+On running the LangFileReader for a particular file , an instance model.AnalyzedFile
+is created. AnalyzedFile relates to parsed output of one file and
 contains a list of sentences. Sentences are modeled by model.Sentence. Sentence
-contains list of words.A word is modelted by model.Word.
+contains list of words.  A word is modeled by model.Word.
 
 An instance of LangFileReader needs to be passed a filename and its method
 readandParse should be called. 
@@ -17,12 +18,26 @@ The method toXML will return an XML representation.
 Assumptions
 -----------
 
+(1) Files are not large, related to the limitations listed in the limitations
+section.
 
 Limitations
 -----------
-Will not handle very large files well, because all the contents are read into 
-memory as one string.
+(1)Will not handle very large files well, because all the contents are read into 
+memory as one string and then broken up into sentences and words.
 
+(2) Breaks sentences into words, using java BreakIterator. A name like "George Bush"
+will be broken up into 4 words and not considered as one. Also a noun like "George
+Bush" will be broken up as two nouns George and Bush. For a noun like 
+"Sea of Tranquility" of will be considered a noun.
+
+(3) Sentence detection by BreakIterator seems rudimentary. For example it expects a 
+space after a period as start of a sentence. 
 
 Other Approaches
 ----------------
+
+(1) Compound words should be treated as one. For example "George Bush" and also
+"George Bush" should be stored and tagged as a noun.
+(2) More sophisticated means to detect sentences is needed.
+

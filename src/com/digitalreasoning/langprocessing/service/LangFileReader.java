@@ -17,7 +17,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-import com.digitalreasoning.langprocessing.model.FileTobeAnalyzed;
+import com.digitalreasoning.langprocessing.model.AnalyzedFile;
 import com.digitalreasoning.langprocessing.model.Sentence;
 import com.digitalreasoning.langprocessing.model.Word;
 
@@ -25,15 +25,19 @@ public class LangFileReader {
 	private String fileName;
 	private LangParser parser;
 	private List<Sentence> sentList;
-	private FileTobeAnalyzed fileToAnalyze = new FileTobeAnalyzed();
+	
+	// The below is the output
+	private AnalyzedFile analyzedFile = new AnalyzedFile();
 	public LangFileReader(String fileName) {
 		this.fileName = fileName;
-		fileToAnalyze.setName(fileName);
+		analyzedFile.setName(fileName);
 	}
 	
 	public void setParser(LangParser parser) {
 		this.parser = parser;
 	}
+	
+	
 
 	public void readandParse() {
 
@@ -41,6 +45,8 @@ public class LangFileReader {
 
 		try {
 
+			
+			
 			BufferedReader reader = new BufferedReader(new FileReader(fileName));
 			String strLine;
 			while ( (strLine = reader.readLine()) != null) {
@@ -51,11 +57,12 @@ public class LangFileReader {
 				List<Word> wordList = parser.parseWord(sentence.getSentence());
 				sentence.setWordList(wordList);
 			}
-			fileToAnalyze.setSentenceList(sentList);
+			analyzedFile.setSentenceList(sentList);
 
 			reader.close();
 		}
 		catch(IOException ioe) {
+			System.out.println("IOException with file:"+fileName);
 			ioe.printStackTrace();
 		}
 		finally {
@@ -63,18 +70,34 @@ public class LangFileReader {
 		}
 	}
 	
-	public FileTobeAnalyzed getFileTobeAnalyzed() {
-		return fileToAnalyze;
+	/**********
+	 * return the output of the read
+	 * and parse
+	 * @return
+	 */
+	public AnalyzedFile  getAnalyzedFile() {
+		return analyzedFile;
 	}
 	
+	/*******************
+	 * Return XML version of the sentence and word structure
+	 * @return
+	 */
 	public String toXml() {
 		StringBuilder outstr = new StringBuilder();
 		outstr.append("<?xml version=\"1.0\"");
 		outstr.append("<file>");
+		
 		for(Sentence sentence:sentList) {
 			outstr.append("<sentence>");
 			for(Word word:sentence.getWordList()) {
-				outstr.append("<word>");
+				outstr.append("<word");
+				if( word.isNoun()) {
+					outstr.append(" noun=true>");
+				}else
+				{
+					outstr.append(" noun=false>");
+				}
 				outstr.append(word.getWord());
 				outstr.append("</word>");
 			}

@@ -1,5 +1,5 @@
 /************************
- * encapsulates the file to be analyzed.
+ * encapsulates the output analyzed file.
  * Composes of a list of sentences
  *  Author : Mahesh Trikannad
  */
@@ -8,7 +8,7 @@ package com.digitalreasoning.langprocessing.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileTobeAnalyzed {
+public class AnalyzedFile {
 	private String fileName;
 	List<Sentence> sentenceList = new ArrayList<Sentence>();
 	

@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.digitalreasoning.langprocessing.model.FileTobeAnalyzed;
+import com.digitalreasoning.langprocessing.model.AnalyzedFile;
 import com.digitalreasoning.langprocessing.service.LangFileReader;
 import com.digitalreasoning.langprocessing.service.LangParser;
 import com.digitalreasoning.langprocessing.service.SimpleLangParser;
@@ -20,7 +20,7 @@ public class LangFileReaderTest {
 		rdr.setParser(parser);
 		
 		rdr.readandParse();
-		FileTobeAnalyzed fileAnal = rdr.getFileTobeAnalyzed();
+		AnalyzedFile fileAnal = rdr.getAnalyzedFile();
 		assertNotNull(fileAnal);
 		assertNotNull(fileAnal.getSentenceList());
 		
