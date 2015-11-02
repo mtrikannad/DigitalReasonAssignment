@@ -15,20 +15,41 @@ package com.digitalreasoning.langprocessing.service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
+import com.digitalreasoning.langprocessing.exception.DigitalReasoningException;
 import com.digitalreasoning.langprocessing.model.AnalyzedFile;
+import com.digitalreasoning.langprocessing.model.AnalyzedOutput;
 import com.digitalreasoning.langprocessing.model.Sentence;
 import com.digitalreasoning.langprocessing.model.Word;
 
-public class LangFileReader {
+public class LangFileReader implements Runnable {
 	private String fileName;
 	private LangParser parser;
 	private List<Sentence> sentList;
+	private BufferedReader reader = null;
 	
-	// The below is the output
+	// The below is the output after parse
 	private AnalyzedFile analyzedFile = new AnalyzedFile();
-	public LangFileReader(String fileName) {
+	
+	// constructor with filename
+	public LangFileReader(String fileName) throws DigitalReasoningException {
+		this.fileName = fileName;
+		analyzedFile.setName(fileName);
+		try {
+		reader = new BufferedReader(new FileReader(fileName));
+		}
+		catch(IOException ioe) {
+			ioe.printStackTrace();
+			throw new DigitalReasoningException("Could not open file:"+fileName);
+		}
+	}
+	
+	// constructor with inputstream 
+	public LangFileReader(InputStream inStream,String fileName) {
+		reader = new BufferedReader(new InputStreamReader(inStream));
 		this.fileName = fileName;
 		analyzedFile.setName(fileName);
 	}
@@ -38,8 +59,11 @@ public class LangFileReader {
 	}
 	
 	
-
-	public void readandParse() {
+/*******************
+ * reads the whole file in memory and then parses
+ * it to sentences and words
+ */
+	public void readandParse() throws DigitalReasoningException {
 
 		StringBuilder myString = new StringBuilder();
 
@@ -47,7 +71,7 @@ public class LangFileReader {
 
 			
 			
-			BufferedReader reader = new BufferedReader(new FileReader(fileName));
+			
 			String strLine;
 			while ( (strLine = reader.readLine()) != null) {
 				myString.append(strLine).append('\n');
@@ -64,10 +88,9 @@ public class LangFileReader {
 		catch(IOException ioe) {
 			System.out.println("IOException with file:"+fileName);
 			ioe.printStackTrace();
+			throw new DigitalReasoningException("Could not open file:"+fileName);
 		}
-		finally {
-
-		}
+		
 	}
 	
 	/**********
@@ -106,6 +129,22 @@ public class LangFileReader {
 		outstr.append("</file>");
 		return outstr.toString();
 		
+		
+	}
+
+	@Override
+	public void run()  {
+		try {
+		readandParse();
+		
+		//add  filetobeAnalyzed to  AnalyzedOutput.
+		// AnalyzedOutput keeps a final list.
+		AnalyzedOutput.setAnalyzedFile(analyzedFile);
+		}
+		catch(DigitalReasoningException de) {
+			de.printStackTrace();
+			System.out.println("Exception was thrown by readAndParse");
+		}
 		
 	}
 

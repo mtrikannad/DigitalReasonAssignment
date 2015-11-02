@@ -1,25 +1,41 @@
 Run Instructions
 ----------------
+Project has been set-up in eclipse and therefore can be imported to Eclipse.
 
-Run the main method of com.digitalreasoning.langprocessing.main.RunLangProcessing
-Junit tests are at test.com.digitalreasoning.langprocessing
+Run the main method of com.digitalreasoning.langprocessing.main.RunLangProcessing. nlp_data.txt and NER.txt have been copied to the 
+project root directory , the program will load the nouns from NER.text ,process nlp_data.txt, create internal data structures and finally
+print a XML from the internal data structures.
+
+Run the main method of com.digitalreasoning.langprocessing.main.RunLangMultiThreaded for multiple threads processing the zip file. 
+nlp_data.zip is copied to the project root directory , the program will load the nouns and process the zip file using multiple threads.
+Final internal data structure is com.digitalreasoning.langprocessing.model..AnalyzedOutput and contains a list of analyzed files.
+
+Junit tests are at test.com.digitalreasoning.langprocessing.model
+
 
 Design description
 ------------------
-On running the LangFileReader for a particular file , an instance model.AnalyzedFile
-is created. AnalyzedFile relates to parsed output of one file and
-contains a list of sentences. Sentences are modeled by model.Sentence. Sentence
-contains list of words.  A word is modeled by model.Word.
 
-An instance of LangFileReader needs to be passed a filename and its method
-readandParse should be called. 
-The method toXML will return an XML representation.
+
+On running the single threaded program for a single file , an instance model "AnalyzedFile" (com.digitalreasoning.langprocessing.model.AnalyzedFile)
+is created. AnalyzedFile relates to the parsed output of one file and
+contains a list of sentences   . Sentences are modeled by model.Sentence (com.digitalreasoning.langprocessing.model.Sentence). Sentence
+contains list of words.  A word is modeled by model.Word (com.digitalreasoning.langprocessing.model.Word)
+
+When multiple files are processed by multiple threads, the run method of
+LangFileReader parses the file as usual and in addition calls a synchronized
+method of AnalyzedOutput to add AnalyzedFile. AnalyzedOutput (com.digitalreasoning.langprocessing.model.AnalyzedOutput) contains a list
+of all analyzed files. A thread pool of 5 has been set in the code.
+The program will output a list of files it has analyzed.
+
 
 Assumptions
 -----------
 
 (1) Files are not large, related to the limitations listed in the limitations
 section.
+(2) Program creates internal data structures from the input, however actual use for language processing
+is not in scope of this project.
 
 Limitations
 -----------

@@ -14,7 +14,7 @@ public class LangFileReaderTest {
 	
 	
 	@Test
-	public void testFileReader() {
+	public void testFileReader() throws Exception  {
 		LangFileReader rdr = new LangFileReader("nlp_data.txt");
 		LangParser parser = new SimpleLangParser();
 		rdr.setParser(parser);

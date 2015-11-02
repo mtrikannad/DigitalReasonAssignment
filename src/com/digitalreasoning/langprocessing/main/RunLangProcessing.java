@@ -10,6 +10,7 @@
 
 package com.digitalreasoning.langprocessing.main;
 
+import com.digitalreasoning.langprocessing.exception.DigitalReasoningException;
 import com.digitalreasoning.langprocessing.service.LangFileReader;
 import com.digitalreasoning.langprocessing.service.LangParser;
 import com.digitalreasoning.langprocessing.service.NounFileLoader;
@@ -22,7 +23,7 @@ public class RunLangProcessing {
 	 * an XML output
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DigitalReasoningException {
 
 		// Load the nouns first
 		NounFileLoader.loadNouns("NER.txt");

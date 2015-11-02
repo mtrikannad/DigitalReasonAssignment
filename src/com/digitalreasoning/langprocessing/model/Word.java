@@ -1,4 +1,4 @@
-/************************
+/************************************
  * Encapsulate a word. Contains
  * a word and an indication if it is a noun
  * or not.

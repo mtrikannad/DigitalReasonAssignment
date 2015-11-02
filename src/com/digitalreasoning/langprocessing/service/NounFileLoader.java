@@ -29,6 +29,11 @@ public class NounFileLoader {
 		this.fileName = fileName;
 	}
 	
+	/**************************************
+	 * Singleton method. Call this to load
+	 * nouns
+	 * @param fileName
+	 */
 	public static void loadNouns(String fileName) {
 		
 		if ( loader == null) {
@@ -38,6 +43,11 @@ public class NounFileLoader {
 
 	}
 
+	/**********************************************
+	 * Read all nouns from a file
+	 * Simplistic parsing break into words
+	 * and add them to a Set
+	 */
 	private void readandParse() {
 
 		
